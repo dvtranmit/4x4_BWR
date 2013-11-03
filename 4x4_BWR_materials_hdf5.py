@@ -20,14 +20,12 @@ uo2 = f.create_group('UO2')  #That's the letter 'O' not the number
 #Entering data values for both groups of each material separated by a comma
 
 sigma_t = numpy.array([3.62022*10^-1, 5.72155*10^-1]) 
-                                        #I don't understand where all the numbers
-                                        #are coming from in the example... doing my
-                                        #best.
-sigma_a = numpy.array([7.22964*10^-3, 1.41126*10^-1])
-
-sigma_s = numpy.array([3.54792*10^-1, 4.31029*10^-1])
+                                        
+sigma_f = numpy.array([7.22964*10^-3, 1.41126*10^-1])
 
 v_sigma_f = numpy.array([1.86278*10^-2, 3.44137*10^-1])
+
+sigma_a = numpy.array ([2.76091*10^-2, 1.91257*10^-1])
 
 sigma_sg1 = numpy.array([3.33748*10^-1, 0.0])
 
@@ -37,10 +35,10 @@ sigma_sg2 = numpy.array([6.64881*10^-4, 3.80898*10^-1])
 
 uo2.create_dataset('Total XS', data=sigma_t)
 uo2.create_dataset('Absorption XS', data=sigma_a)
-uo2.create_dataset('Scattering XS', data=sigma_s)
-uo2.create_dataset('Fission XS', data=v_sigma_f)
-uo2.create_dataset('blank2', data=sigma_sg1)
-uo2.create_dataset('blank3', data=sigma_sg2)
+uo2.create_dataset('Fission XS', data=sigma_f)
+uo2.create_dataset('Number of Neutrons from Fission XS', data=v_sigma_f)
+uo2.create_dataset('Scattering XS from Group 1', data=sigma_sg1)
+uo2.create_dataset('Scattering XS from Group 2', data=sigma_sg2)
 
 ######################################################################
 ########################## UO2 + GD2O3 ###############################
@@ -52,9 +50,9 @@ gd2o3 = f.create_group('UO2 + GD2O3')
 
 sigma_t = numpy.array([3.71785*10^-1, 1.75000*10^0)]
 
-sigma_a = numpy.array([6.97904*10^-3, 6.45724*10^-2)]
+sigma_f = numpy.array([6.97904*10^-3, 6.45724*10^-2)]
 
-sigma_s = numpy.array([3.64806*10^-1,1.68525])
+sigma_a = numpy.array([3.29962*10^-2, 1.36680*10^0])
 
 v_sigma_f = numpy.array([1.79336*10^-2, 1.57929*10^-1)]
 
@@ -65,12 +63,11 @@ sigma_sg2 = numpy.array([6.92807*10^-4, 3.83204*10^-1)]
 #Creates data sets for each cross section type for UO2 + GD2O3
 
 gd2o3.create_dataset('Total XS', data=sigma_t)
-gd2o3.create_dataset('Absorption XS', data=sigma_a)
-gd2o3.create_dataset('Scattering XS', data=sigma_s)
-gd2o3.create_dataset('Fission XS', data=v_sigma_f)
-gd2o3.create_dataset('blank2', data=sigma_sg1)
-gd2o3.create_dataset('blank3', data=sigma_sg2)
-
+gd203.create_dataset('Absorption XS', data=sigma_a)
+gd203.create_dataset('Fission XS', data=sigma_f)
+gd203.create_dataset('Number of Neutrons from Fission XS', data=v_sigma_f)
+gd203.create_dataset('Scattering XS from Group 1', data=sigma_sg1)
+gd203.create_dataset('Scattering XS from Group 2', data=sigma_sg2)
 ######################################################################
 ############################ Clad ####################################
 ######################################################################
@@ -81,9 +78,9 @@ clad = f.create_group('CLAD')
 
 sigma_t = numpy.array([2.74144*10^-1, 2.80890*10^-1])
 
-sigma_a = numpy.zeros(2)
+sigma_f = numpy.zeros(2)
 
-sigma_s = numpy.array([2.74144*10^-1, 2.80890*10^-1])
+sigma_a = numpy.array([1.57616*10^-3, 3.6600*10^-3])
 
 v_sigma_f = numpy.zeros(2)
 
@@ -95,10 +92,10 @@ sigma_sg2 = numpy.array([1.90838*10^-4,2.77230*10^-1])
 
 clad.create_dataset('Total XS', data=sigma_t)
 clad.create_dataset('Absorption XS', data=sigma_a)
-clad.create_dataset('Scattering XS', data=sigma_s)
-clad.create_dataset('Fission XS', data=v_sigma_f)
-clad.create_dataset('blank2', data=sigma_sg1)
-clad.create_dataset('blank3', data=sigma_sg2)
+clad.create_dataset('Fission XS', data=sigma_f)
+clad.create_dataset('Number of Neutrons from Fission XS', data=v_sigma_f)
+clad.create_dataset('Scattering XS from Group 1', data=sigma_sg1)
+clad.create_dataset('Scattering XS from Group 2', data=sigma_sg2)
 
 ######################################################################
 ############################ Moderator ###############################
@@ -110,9 +107,9 @@ moderator = f.create_group('MODERATOR')
 
 sigma_t = numpy.array([6.40711*10^-1,1.69131])
 
-sigma_a = numpy.zeros(2)
+sigma_f = numpy.zeros(2)
 
-sigma_s = numpy.array([6.40711*10^-1,1.69131])
+sigma_a = numpy.array([1.974*10^-4, 7.03*1-^-3])
 
 v_sigma_f = numpy.zeros(2)
 
@@ -124,9 +121,9 @@ sigma_sg2 = numpy.array([3.31316*10^-2,1.68428])
 
 moderator.create_dataset('Total XS', data=sigma_t)
 moderator.create_dataset('Absorption XS', data=sigma_a)
-moderator.create_dataset('Scattering XS', data=sigma_s)
-moderator.create_dataset('Fission XS', data=v_sigma_f)
-moderator.create_dataset('blank2', data=sigma_sg1)
-moderator.create_dataset('blank3', data=sigma_sg2)
+moderator.create_dataset('Fission XS', data=sigma_f)
+moderator.create_dataset('Number of Neutrons from Fission XS', data=v_sigma_f)
+moderator.create_dataset('Scattering XS from Group 1', data=sigma_sg1)
+moderator.create_dataset('Scattering XS from Group 2', data=sigma_sg2)
 
 f.close()
