@@ -10,7 +10,7 @@ f = h5py.File('BWR_materials.hdf5') #opens the actual hdf5 file, note: the curre
                                     #python file will take the data values and
                                     #store them in that hdf5 file. This is not
                                     #the hdf5 file itself.
-f.attrs["Energy Groups"] = 4        #I think this is 4 for the number of materials
+f.attrs["Energy Groups"] = 2
 
 ######################################################################
 ################################ UO2 #################################
