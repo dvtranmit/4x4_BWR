@@ -112,3 +112,8 @@ lattice.setLatticeCells([[1, 1, 1, 1],
 ###############################################################################
 
 
+"""Questions"""
+
+"""1. What is a lattice id?"""
+"""2. Is a universe kind of like one of the fuel pin blocks?"""
+"""3. Why are the widths 1.0?"""
