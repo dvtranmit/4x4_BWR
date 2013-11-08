@@ -20,7 +20,7 @@ uo2 = f.create_group('UO2')  #That's the letter 'O' not the number
 
 #Entering data values for both groups of each material separated by a comma
 
-sigma_t = numpy.array([3.62022e1, 5.72155e-1]) 
+sigma_t = numpy.array([3.62022e-1, 5.72155e-1]) 
                                         
 sigma_f = numpy.array([7.22964e-3, 1.41126e-1])
 
@@ -28,7 +28,7 @@ v_sigma_f = numpy.array([1.86278e-2, 3.44137e-1])
 
 sigma_a = numpy.array ([2.76091e-2, 1.91257e-1])
 
-sigma_s = numpy.array([3.33748e-1, 0.0, 6.64881e-4, 3.80898e-1])
+sigma_s = numpy.array([3.33748e-1, 6.64881e-4, 0.0, 3.80898e-1])
 
 chi = numpy.array([0.0,1.0])
 
@@ -57,7 +57,7 @@ sigma_a = numpy.array([3.29962e-2, 1.36680e0])
 
 v_sigma_f = numpy.array([1.79336e-2, 1.57929e-1])
 
-sigma_s = numpy.array([3.38096e-1, 0.0, 6.92807e-4, 3.83204e-1])
+sigma_s = numpy.array([3.38096e-1, 6.92807e-4, 0.0, 3.83204e-1])
 
 chi = numpy.array([0.0,1.0])
 
@@ -86,7 +86,7 @@ sigma_a = numpy.array([1.57616e-3, 3.6600e-3])
 
 v_sigma_f = numpy.zeros(2)
 
-sigma_s = numpy.array([2.72377e-1,0.0, 1.90838e-4,2.77230e-1])
+sigma_s = numpy.array([2.72377e-1,1.90838e-4, 0.0,2.77230e-1])
 
 chi = numpy.array([0.0,0.0])
 
@@ -115,7 +115,7 @@ sigma_a = numpy.array([1.974e-4, 7.03e-3])
 
 v_sigma_f = numpy.zeros(2)
 
-sigma_s = numpy.array([6.07382e-1,0.0, 3.31316e-2,1.68428])
+sigma_s = numpy.array([6.07382e-1, 3.31316e-2, 0.0,1.68428])
 
 chi = numpy.array([0.0,0.0])
 
