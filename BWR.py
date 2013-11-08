@@ -153,7 +153,7 @@ geometry.initializeFlatSourceRegions()
 "_openmoc.Geometry_initializeFlatSourceRegions(self)" ... I don't know what
 that means but if I had to guess, I would say it takes our geometry, runs
 it through the c++ version of openmoc and returns whatever that c++ operator 
-does to our geometry. Again, this is my best guess."""
+does to our geometry. Again, this is just my best guess."""
 
 ###############################################################################
 ########################   Creating the TrackGenerator   ######################
@@ -164,3 +164,4 @@ does to our geometry. Again, this is my best guess."""
 """1. What is a lattice id?"""
 """2. Is a universe kind of like one of the fuel pin blocks?"""
 """3. Why are the widths 1.0?"""
+"""4. What does the underscore mean in _openmoc?"""
