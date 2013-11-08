@@ -8,6 +8,8 @@ import openmoc.materialize as materialize
 ###############################################################################
 
 #still not sure what this does. tough concept.
+#Update: I think I get it. The following assigns the dictionary returned by the
+#materialize function in the materialize python file to the variable materials
 materials = materialize.materialize('BWR_materials.hdf5')
 
 #finds the identification number for each material
@@ -111,6 +113,51 @@ lattice.setLatticeCells([[1, 1, 1, 1],
 ##########################   Creating the Geometry   ##########################
 ###############################################################################
 
+log.py_printf('NORMAL', 'Creating geometry...')
+
+geometry = Geometry() 
+"""Creates an instance of the Geometry class. This is a 
+class in the openmoc folder. I couldn't find a description of the definitions 
+in this class in the file but you guys can read the definitions of this class
+in the openmoc python file itself."""
+
+for material in materials.values(): geometry.addMaterial(material)
+"""This one line has a long explanation. Earlier in this file, we ran our
+materials data through the materialize function and assigned that dictionary
+to the variable "materials". That means "materials" is a dictionary containing
+each material as the key, and its attributes (sigma_a, sigma_s, etc...) as 
+values. The .values() operator returns a list of all the values in the 
+materials dictionary. The for loop loops through each material in the list
+and adds that material to the geometry. One confusing thing here is that
+after the colon, the block of code isn't indented below the for loop--it 
+continues on the same line. It would function the same if it were written
+like this:
+
+for material in materials.values():
+    geometry.addMaterial(material)
+
+"""
+
+for cell in cells: geometry.addCell(cell)
+"""Same deal here, except cells is a list of our cell types (we have 6). The
+for loop runs through the cell list and adds each cell to the geometry 
+(which is, once again, an instance of the Geometry class). The geometry class
+now understands what each universe in the lattice means so that adding
+the lattice in the next line makes sense to the geometry."""
+
+geometry.addLattice(lattice)
+"""Adds the lattice we just created to the geometry."""
+
+geometry.initializeFlatSourceRegions()
+"""Once the geometry attributes are set up, this method returns
+"_openmoc.Geometry_initializeFlatSourceRegions(self)" ... I don't know what
+that means but if I had to guess, I would say it takes our geometry, runs
+it through the c++ version of openmoc and returns whatever that c++ operator 
+does to our geometry. Again, this is my best guess."""
+
+###############################################################################
+########################   Creating the TrackGenerator   ######################
+###############################################################################
 
 """Questions"""
 
