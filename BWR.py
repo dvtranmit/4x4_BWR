@@ -1,4 +1,7 @@
-from openmoc import *
+#Imports all modules from OpenMOC, as well as the individual functions log, 
+#plotter, and materialize, all of which are part of submodules within OpenMoc
+
+from openmoc import * 
 import openmoc.log as log
 import openmoc.plotter as plotter
 import openmoc.materialize as materialize
@@ -83,6 +86,8 @@ cells[1].addSurface(halfspace=-1, surface=circles[0])
 cells[1].addSurface(halfspace=+1, surface=circles[1])
 
 #third cell, region inside square formed by four planes and outside big circle
+"""update: third cell is now just the region outside the big circle; the square
+formed by the four planes will be taken care of with the lattice"""
 #cells[2].addSurface(halfspace=+1, surface=planes[0])
 #cells[2].addSurface(halfspace=+1, surface=planes[2])
 #cells[2].addSurface(halfspace=-1, surface=planes[1])
@@ -100,6 +105,8 @@ cells[4].addSurface(halfspace=-1, surface=circles[0])
 cells[4].addSurface(halfspace=+1, surface=circles[1])
 
 #sixth cell, region inside square formed by four planes and outside big circle
+"""update: sixth cell is now just the region outside the big circle; the square
+formed by the four planes will be taken care of with the lattice"""
 #cells[5].addSurface(halfspace=+1, surface=planes[0])
 #cells[5].addSurface(halfspace=+1, surface=planes[2])
 #cells[5].addSurface(halfspace=-1, surface=planes[1])
@@ -107,6 +114,7 @@ cells[4].addSurface(halfspace=+1, surface=circles[1])
 cells[5].addSurface(halfspace=+1, surface=circles[0])
 
 #seventh cell, giant cell
+#this takes care of the big square surrounding the entire system
 cells[6].addSurface(halfspace=+1, surface=planes[0])
 cells[6].addSurface(halfspace=+1, surface=planes[2])
 cells[6].addSurface(halfspace=-1, surface=planes[1])
@@ -118,10 +126,10 @@ cells[6].addSurface(halfspace=-1, surface=planes[3])
 
 log.py_printf('NORMAL', 'Creating simple 4x4 lattice...')
 
-"""From what I gather, a universe is a block containing a fuel pin within our 4x4 lattice. So far we've only coded a universe containing a moderator, cladding, and UO2. I'm going to go ahead and create a second universe containing the gd2o3 fuel pin. Further comments below on how I created the lattice."""
+"""From what I gather, a universe is a space containing a fuel pin within our 4x4 lattice. Further comments below on how I created the lattice."""
 
 lattice = Lattice(id=3, width_x=1.6, width_y=1.6)
-"""Created an instance of a lattice, which in our case is our 4x4 BWR. I gave it an arbitrary id because I don't know where the example id came from, and gave it width_x and width_y of 1.0 because those seem pretty standard."""
+"""This lattice can be considered our third universe, 1 and 2 being the UO2 and gd2o3 fuel pins respectively. This is why lattice has an ID of 3. Width and Height of each little square are taken from the diagram provided with the data"""
 
 lattice.setLatticeCells([[1, 1, 1, 1],
                          [1, 2, 1, 1],
@@ -228,8 +236,4 @@ log.py_printf('TITLE', 'Finished')
 
 
 """Questions"""
-
-"""1. What is a lattice id?"""
-"""2. Is a universe kind of like one of the fuel pin blocks?"""
-"""3. Why are the widths 1.0?"""
-"""4. What does the underscore mean in _openmoc?"""
+"""1. What does the underscore mean in _openmoc?"""
