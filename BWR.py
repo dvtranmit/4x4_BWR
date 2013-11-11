@@ -233,7 +233,4 @@ plotter.plotFluxes(geometry, solver, energy_groups=[1,2])
 #prints finished status for the plot generator
 log.py_printf('TITLE', 'Finished')
 
-
-
 """Questions"""
-"""1. What does the underscore mean in _openmoc?"""
