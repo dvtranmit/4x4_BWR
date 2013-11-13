@@ -1,8 +1,8 @@
-#Imports all modules from OpenMOC, as well as the individual functions log, 
-#plotter, and materialize, all of which are part of submodules within OpenMoc
+"""Imports all modules from OpenMOC, as well as the individual functions log, 
+plotter, and materialize, all of which are part of submodules within OpenMoc"""
 
 from openmoc import * 
-import openmoc.log as log
+import openmoc.log as log # this module stores data printed during simulation
 import openmoc.plotter as plotter
 import openmoc.materialize as materialize
 
@@ -10,8 +10,9 @@ import openmoc.materialize as materialize
 #######################   Main Simulation Parameters   ########################
 ###############################################################################
 
-"""This imports a variety of variables from the options file. This should be located within the OpenMOC folder.
-This could potentially also accept user input, but there should also be a default value."""
+"""This imports a variety of variables from the options file. This should be 
+located within the OpenMOC folder.This could potentially also accept user input,
+but there should also be a default value."""
 
 num_threads = options.num_omp_threads
 track_spacing = options.track_spacing
@@ -19,28 +20,30 @@ num_azim = options.num_azim
 tolerance = options.tolerance
 max_iters = options.max_iters
 
+log.setLogLevel('NORMAL')
+
 ###############################################################################
 ###########################   Creating Materials   ############################
 ###############################################################################
 
-#still not sure what this does. tough concept.
-#Update: I think I get it. The following assigns the dictionary returned by the
-#materialize function in the materialize python file to the variable materials
+log.py_printf('NORMAL', 'Importing materials data from HDF5...')
+
+#The following assigns the dictionary returned by the materialize function in 
+#the materialize python file to the variable materials
 materials = materialize.materialize('BWR_materials.hdf5')
 
 #finds the identification number for each material
 uo2_id = materials['UO2'].getId()
 moderator_id = materials['MODERATOR'].getId()
 clad_id = materials['CLAD'].getId()
-gd2o3_id = materials['UO2 + GD2O3'].getId() #added this material [12:54AM]
+gd2o3_id = materials['UO2 + GD2O3'].getId() 
 
-#printing materials for reference while coding and debugging
-print materials
-print len(materials)
 
 ###############################################################################
 ###########################   Creating Surfaces   #############################
 ###############################################################################
+
+log.py_printf('NORMAL', 'Creating Surfaces...')
 
 #creates list of circle and plane surfaces
 circles = [] 
@@ -85,9 +88,8 @@ cells[0].addSurface(halfspace=-1, surface=circles[1])
 cells[1].addSurface(halfspace=-1, surface=circles[0])
 cells[1].addSurface(halfspace=+1, surface=circles[1])
 
-#third cell, region inside square formed by four planes and outside big circle
-"""update: third cell is now just the region outside the big circle; the square
-formed by the four planes will be taken care of with the lattice"""
+#third cell, region outside the big circle; the square formed by the four planes 
+#will be taken care of with the lattice
 #cells[2].addSurface(halfspace=+1, surface=planes[0])
 #cells[2].addSurface(halfspace=+1, surface=planes[2])
 #cells[2].addSurface(halfspace=-1, surface=planes[1])
@@ -104,9 +106,9 @@ cells[3].addSurface(halfspace=-1, surface=circles[1])
 cells[4].addSurface(halfspace=-1, surface=circles[0])
 cells[4].addSurface(halfspace=+1, surface=circles[1])
 
-#sixth cell, region inside square formed by four planes and outside big circle
-"""update: sixth cell is now just the region outside the big circle; the square
-formed by the four planes will be taken care of with the lattice"""
+#sixth cell, region outside the big circle; the square formed by the four planes
+#will be taken care of with the lattice
+
 #cells[5].addSurface(halfspace=+1, surface=planes[0])
 #cells[5].addSurface(halfspace=+1, surface=planes[2])
 #cells[5].addSurface(halfspace=-1, surface=planes[1])
@@ -126,17 +128,22 @@ cells[6].addSurface(halfspace=-1, surface=planes[3])
 
 log.py_printf('NORMAL', 'Creating simple 4x4 lattice...')
 
-"""From what I gather, a universe is a space containing a fuel pin within our 4x4 lattice. Further comments below on how I created the lattice."""
+"""A universe is a space containing a fuel pin within our 4x4 lattice. Further 
+comments below on how I lattice was created."""
 
 lattice = Lattice(id=3, width_x=1.6, width_y=1.6)
-"""This lattice can be considered our third universe, 1 and 2 being the UO2 and gd2o3 fuel pins respectively. This is why lattice has an ID of 3. Width and Height of each little square are taken from the diagram provided with the data"""
+"""This lattice can be considered our third universe, 1 and 2 being the UO2 and 
+gd2o3 fuel pins respectively. This is why lattice has an ID of 3. Width 
+and Height of each little square are taken from the diagram provided with the 
+data"""
 
 lattice.setLatticeCells([[1, 1, 1, 1],
                          [1, 2, 1, 1],
                          [1, 1, 2, 1],
                          [1, 1, 1, 1]])
 
-"""Each 1 represents a UO2 fuel pin cell, and each 2 represents a gd2o3 fuel pin cell in our lattice."""
+"""Each 1 represents a UO2 fuel pin cell, and each 2 represents a gd2o3 fuel pin 
+cell in our lattice."""
 
 ###############################################################################
 ##########################   Creating the Geometry   ##########################
@@ -146,9 +153,7 @@ log.py_printf('NORMAL', 'Creating geometry...')
 
 geometry = Geometry() 
 """Creates an instance of the Geometry class. This is a 
-class in the openmoc folder. I couldn't find a description of the definitions 
-in this class in the file but you guys can read the definitions of this class
-in the openmoc python file itself."""
+class in the openmoc folder."""
 
 for material in materials.values(): geometry.addMaterial(material)
 """This one line has a long explanation. Earlier in this file, we ran our
@@ -179,58 +184,67 @@ geometry.addLattice(lattice)
 
 geometry.initializeFlatSourceRegions()
 """Once the geometry attributes are set up, this method returns
-"_openmoc.Geometry_initializeFlatSourceRegions(self)" ... I don't know what
-that means but if I had to guess, I would say it takes our geometry, runs
-it through the c++ version of openmoc and returns whatever that c++ operator 
-does to our geometry. Again, this is just my best guess."""
+"_openmoc.Geometry_initializeFlatSourceRegions(self)" This figures out what each
+flat source region is in the geometry and gives each one a unique ID"""
 
 ###############################################################################
 ########################   Creating the TrackGenerator   ######################
 ###############################################################################
 
-#Creates an instance of the TrackGenerator class, takes three parameters
-track_generator = TrackGenerator(geometry, num_azim, track_spacing)
-#Runs the generateTracks() method of the TrackGenerator class
-track_generator.generateTracks()
+#k_az = []
+#maxpin_az = []
+#avgpin_az = []
+#az_values = [4, 8, 16, 32, 64, 128]
 
-###############################################################################
-#########################   Running a Simulation ##############################
-###############################################################################
+#for num_azim in az_values:
 
-#Creates an instance of the ThreadPrivateSolver class with two parameters
-solver = ThreadPrivateSolver(geometry, track_generator)
-#Sets the number of threads with the number imported from options
-solver.setNumThreads(num_threads)
-#sets the convergence threshold with tolerance imported from options
-solver.setSourceConvergenceThreshold(tolerance)
-#We think this is where the simulation is actually run. max_iters here is the 
-#number of iterations for the simulation.
-solver.convergeSource(max_iters)
-#Prints data for each iteration???
-solver.printTimerReport()
 
+    log.py_printf('NORMAL', 'Initializing the track generator...')
+
+    #Creates an instance of the TrackGenerator class, takes three parameters
+    track_generator =TrackGenerator(geometry, num_azim, 0.1 """track_spacing""")
+    #Runs the generateTracks() method of the TrackGenerator class
+    track_generator.generateTracks()
+
+    ###############################################################################
+    #########################   Running a Simulation ##############################
+    ###############################################################################
+
+    #Creates an instance of the ThreadPrivateSolver class with two parameters
+    solver = ThreadPrivateSolver(geometry, track_generator)
+    #Sets the number of threads with the number imported from options
+    solver.setNumThreads(num_threads)
+    #sets the convergence threshold with tolerance imported from options
+    solver.setSourceConvergenceThreshold(tolerance)
+    #This is where the simulation is actually run. max_iters here is the 
+    #number of iterations for the simulation.
+    solver.convergeSource(max_iters)
+    #Prints a report with time elapsed 
+    solver.printTimerReport()
+    
+    #k_az.append(k_eff)
+#print k_az 
+    
 ###############################################################################
 ############################   Generating Plots   #############################
 ###############################################################################
 
-#Prints status of the plot generation
-log.py_printf('NORMAL', 'Plotting data...')
+
+"""log.py_printf('NORMAL', 'Plotting data...')
 
 #Plots the tracks generated by TrackGenerator using MatPlotLib
 plotter.plotTracks(track_generator)
-#Plots the various segments onto the tracks... color codes?
+#Figures out the line segments based on the track intersections
 plotter.plotSegments(track_generator)
 #Color codes the segments by material
 plotter.plotMaterials(geometry, gridsize=500)
 #Separates the tracks into cells
 plotter.plotCells(geometry, gridsize=500)
-#NO CLUE
+#Plots the flat source regions with different colors
 plotter.plotFlatSourceRegions(geometry, gridsize=500)
 #Plots flow of neutrons out of a given area...with color!
 #We have two energy groups, so the array has two values.
 plotter.plotFluxes(geometry, solver, energy_groups=[1,2])
 
 #prints finished status for the plot generator
-log.py_printf('TITLE', 'Finished')
-
-"""Questions"""
+log.py_printf('TITLE', 'Finished')"""

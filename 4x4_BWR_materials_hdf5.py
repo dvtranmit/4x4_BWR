@@ -30,7 +30,7 @@ sigma_a = numpy.array ([2.76091e-2, 1.91257e-1])
 
 sigma_s = numpy.array([3.33748e-1, 6.64881e-4, 0.0, 3.80898e-1])
 
-chi = numpy.array([0.0,1.0])
+chi = numpy.array([1.0,0.0])
 
 #Creates data sets for each cross section type using the uo2 material
 
@@ -59,7 +59,7 @@ v_sigma_f = numpy.array([1.79336e-2, 1.57929e-1])
 
 sigma_s = numpy.array([3.38096e-1, 6.92807e-4, 0.0, 3.83204e-1])
 
-chi = numpy.array([0.0,1.0])
+chi = numpy.array([1.0, 0.0])
 
 #Creates data sets for each cross section type for UO2 + GD2O3
 
