@@ -329,7 +329,7 @@ for index, track_spacing in enumerate(ts_values):
   
     k_ts.append(solver.getKeff())
 
-counter = 0
+'''counter = 0
 for keff in k_az:   
     log.py_printf('NORMAL', 'num_azim = ' + str(az_values[counter]) + ' k-eff = ' + str(keff))
     log.py_printf('NORMAL', 'deltaK = ' + str(keff - 0.986561))
@@ -357,7 +357,7 @@ for keff in k_fsr:
         log.py_printf('NORMAL', 'rings = ' + str(ring_values[counterR]) + ' sectors = ' + str(sector_values[counterS]) + ' k-eff = ' + str(keff))
         log.py_printf('NORMAL', 'deltaK = ' + str(keff - 0.986561))
         log.py_printf('NORMAL', ' ')
-        counterS +=1          
+        counterS +=1'''
             
 ###############################################################################
 ############################   Generating Plots   #############################
